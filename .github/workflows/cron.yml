@@ -1,0 +1,20 @@
+# .github/workflows/cron.yml
+
+name: Daily Expiration Check
+
+on:
+  schedule:
+    # --- LÍNEA CORREGIDA ---
+    # Corre todos los días a la 1:15 AM UTC.
+    - cron: '15 1 * * *'
+  workflow_dispatch:
+    # Permite ejecutarlo manualmente desde la pestaña "Actions" en GitHub
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Supabase Edge Function
+        run: |
+          curl -i -X POST ${{ secrets.SUPABASE_FUNCTION_URL }} \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
